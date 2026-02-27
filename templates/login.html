@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Birthdays — Log In</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="page-wrapper">
+      <div class="auth-page">
+        <div class="auth-card">
+          <div class="auth-card__header">
+            <div class="auth-card__icon">🔑</div>
+            <h1 class="auth-card__title">Welcome back</h1>
+            <p class="auth-card__subtitle">Log in to see your birthdays.</p>
+          </div>
+
+          <!-- Error message -->
+          {% if error %}
+          <div class="alert alert--error">
+            <span class="alert__icon">⚠</span>
+            <span>{{ error }}</span>
+          </div>
+          {% endif %}
+
+          <form action="/login" method="post">
+            <div class="form-group">
+              <label class="form-label" for="username">Username</label>
+              <input
+                class="form-input"
+                type="text"
+                id="username"
+                name="username"
+                placeholder="your_username"
+                autocomplete="username"
+                maxlength="15"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="password">Password</label>
+              <input
+                class="form-input"
+                type="password"
+                id="password"
+                name="password"
+                placeholder="••••••••"
+                autocomplete="current-password"
+                maxlength="15"
+                required
+              />
+            </div>
+
+            <button type="submit" class="btn btn--primary">Log in</button>
+          </form>
+
+          <div class="auth-footer">
+            Don't have an account? <a href="/register">Create one</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
