@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Birthdays — Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="page-wrapper">
+      <!-- NAVBAR -->
+      <nav class="navbar">
+        <div class="navbar__inner">
+          <a href="/" class="navbar__brand">
+            <div class="navbar__brand-icon">🎂</div>
+            <span class="navbar__brand-text">birth<span>days</span>.db</span>
+          </a>
+          <div class="navbar__nav">
+            <div class="navbar__user">
+              <div class="navbar__avatar" id="navbar-avatar">
+                {{ session["username"][0] }}
+              </div>
+              <span>{{ session["username"] }}</span>
+            </div>
+            <a href="/logout" class="navbar__logout">Log out</a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- DASHBOARD -->
+      <main class="dashboard">
+        <div class="container">
+          <div class="dashboard__header">
+            <div>
+              <h1 class="dashboard__title">Your <span>Birthdays</span></h1>
+              <p class="dashboard__subtitle">
+                Keep track of the people who matter.
+              </p>
+            </div>
+          </div>
+
+          <!-- ADD BIRTHDAY FORM -->
+          <div class="add-card">
+            <div class="add-card__title"><span>+</span> Add a birthday</div>
+            <form class="add-card__form" action="/" method="post">
+              <div class="form-group">
+                <label class="form-label" for="name">Name</label>
+                <input
+                  class="form-input"
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Full name"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="month">Month</label>
+                <input
+                  class="form-input"
+                  type="number"
+                  id="month"
+                  name="month"
+                  placeholder="1 – 12"
+                  min="1"
+                  max="12"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="day">Day</label>
+                <input
+                  class="form-input"
+                  type="number"
+                  id="day"
+                  name="day"
+                  placeholder="1 – 31"
+                  min="1"
+                  max="31"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                class="btn btn--primary"
+                style="margin-bottom: 1px"
+              >
+                Add
+              </button>
+            </form>
+          </div>
+
+          <!-- BIRTHDAYS LIST -->
+          <div class="section-label">All birthdays</div>
+
+          <div class="table-wrap">
+            {% if birthdays %}
+            <table class="bday-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Birthday</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for birthday in birthdays %}
+                <tr>
+                  <td>
+                    <div class="bday-name">
+                      <div class="bday-avatar">
+                        {{ birthday.name[0].upper() }}
+                      </div>
+                      {{ birthday.name }}
+                    </div>
+                  </td>
+                  <td>
+                    <span class="bday-date">
+                      {{ "%02d" | format(birthday.month) }} / {{ "%02d" |
+                      format(birthday.day) }}
+                    </span>
+                  </td>
+                  <td class="bday-actions">
+                    <form action="/delete" method="post">
+                      <input
+                        type="hidden"
+                        name="id"
+                        value="{{ birthday.id }}"
+                      />
+                      <button type="submit" class="btn-delete" title="Delete">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="15"
+                          height="15"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <polyline points="3 6 5 6 21 6"></polyline>
+                          <path
+                            d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"
+                          ></path>
+                          <path d="M10 11v6"></path>
+                          <path d="M14 11v6"></path>
+                          <path
+                            d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"
+                          ></path>
+                        </svg>
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            {% else %}
+            <div class="empty-state">
+              <div class="empty-state__icon">🎈</div>
+              <p class="empty-state__text">No birthdays yet.</p>
+              <p class="empty-state__hint">
+                Add your first one using the form above.
+              </p>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
