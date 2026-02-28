@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Birthdays — Create Account</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="page-wrapper">
+      <div class="auth-page">
+        <div class="auth-card">
+          <div class="auth-card__header">
+            <div class="auth-card__icon">🎂</div>
+            <h1 class="auth-card__title">Create account</h1>
+            <p class="auth-card__subtitle">
+              Start tracking birthdays in seconds.
+            </p>
+          </div>
+
+          <!-- Error message -->
+          {% if error %}
+          <div class="alert alert--error">
+            <span class="alert__icon">⚠</span>
+            <span class="error_message">{{ error }}</span>
+          </div>
+          {% endif %}
+
+          <form action="/register" method="post">
+            <div class="form-group">
+              <label class="form-label" for="username">Username</label>
+              <input
+                class="form-input"
+                type="text"
+                id="username"
+                name="username"
+                placeholder="choose_a_username"
+                autocomplete="username"
+                maxlength="15"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="password">Password</label>
+              <input
+                class="form-input"
+                type="password"
+                id="password"
+                name="password"
+                placeholder="••••••••"
+                autocomplete="new-password"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="confirmation"
+                >Confirm password</label
+              >
+              <input
+                class="form-input"
+                type="password"
+                id="confirmation"
+                name="confirmation"
+                placeholder="••••••••"
+                autocomplete="new-password"
+                maxlength="15"
+                required
+              />
+            </div>
+
+            <button type="submit" class="btn btn--primary" id="submit-btn">
+              Create account
+            </button>
+          </form>
+
+          <div class="auth-footer">
+            Already have an account? <a href="/login">Log in</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const password = document.getElementById("password");
+      const confirmation = document.getElementById("confirmation");
+      const btn = document.getElementById("submit-btn");
+
+      function checkMatch() {
+        // Don't show anything if confirmation is still empty
+        if (confirmation.value === "") {
+          confirmation.style.borderColor = "";
+          confirmation.style.boxShadow = "";
+          btn.disabled = false;
+          return;
+        }
+
+        if (confirmation.value === password.value) {
+          confirmation.style.borderColor = "var(--accent)";
+          confirmation.style.boxShadow = "0 0 0 3px var(--accent-glow)";
+          btn.disabled = false;
+        } else {
+          confirmation.style.borderColor = "var(--danger)";
+          confirmation.style.boxShadow = "0 0 0 3px var(--danger-dim)";
+          btn.disabled = true;
+        }
+      }
+
+      // Trigger checkMatch function on each keystroke in either field
+      confirmation.addEventListener("input", checkMatch);
+      password.addEventListener("input", checkMatch);
+    </script>
+  </body>
+</html>
