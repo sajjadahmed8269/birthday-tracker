@@ -77,3 +77,40 @@ def register():
 
     else:
         return render_template("register.html")
+
+
+# Login Route
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        # Data Validation
+        if not username or not password:
+            return render_template("login.html", error="Empty Credentials.")
+
+        if len(username) > 15:
+            return render_template(
+                "login.html", error="Username exceeds 15 characters."
+            )
+
+        if any(c.isspace() for c in username):
+            return render_template("login.html", error="username contain spaces.")
+
+        # Check database for username and password
+        rows = db.execute("SELECT * FROM users WHERE username = ?", username)
+
+        if len(rows) != 1 or not check_password_hash(
+            rows[0]["password_hash"], password
+        ):
+            return render_template("login.html", error="Invalid username or password.")
+
+        # Start session for current user
+        session["user_id"] = rows[0]["id"]
+        session["username"] = rows[0]["username"]
+
+        return redirect("/")
+
+    else:
+        return render_template("login.html")
