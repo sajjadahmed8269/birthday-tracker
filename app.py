@@ -31,3 +31,49 @@ def after_request(response):
 @app.route("/", methods=["GET", "POST"])
 def index():
     return "Birthday Tracker — coming soon"
+
+
+# Register Route
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        # Validate the data and add the user to database
+        username = request.form.get("username")
+        password = request.form.get("password")
+        confirmation = request.form.get("confirmation")
+
+        # Data Validation
+        rows = db.execute("SELECT * FROM users WHERE username = ?", username)
+        if len(rows) != 0:
+            return render_template("register.html", error="Username already exists.")
+
+        if not username or not password or not confirmation:
+            return render_template("register.html", error="Empty Credentials.")
+
+        if len(username) > 15:
+            return render_template(
+                "register.html", error="Username exceeds 15 characters."
+            )
+
+        if len(password) < 8:
+            return render_template(
+                "register.html", error="Password should be atleast 8 characters."
+            )
+
+        if any(c.isspace() for c in username):
+            return render_template("register.html", error="username contain spaces.")
+
+        if confirmation != password:
+            return render_template("register.html", error="Passwords do not match.")
+
+        # Create a hash and add data to database
+        hash = generate_password_hash(password)
+
+        db.execute(
+            "INSERT INTO users (username, password_hash) VALUES (?, ?)", username, hash
+        )
+
+        return redirect("/login")
+
+    else:
+        return render_template("register.html")
