@@ -30,7 +30,15 @@ def after_request(response):
 # Index Route
 @app.route("/", methods=["GET", "POST"])
 def index():
-    return "Birthday Tracker — coming soon"
+    # Check for session of current user
+    if not session.get("user_id"):
+        return redirect("/login")
+
+    # Display birthdays for current user
+    birthdays = db.execute(
+        "SELECT * FROM birthdays WHERE user_id = ?", session["user_id"]
+    )
+    return render_template("index.html", birthdays=birthdays)
 
 
 # Register Route
