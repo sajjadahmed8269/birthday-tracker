@@ -1,4 +1,28 @@
-@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap");
+/* ── FONTS ─────────────────────────────────────────────────────────────── */
+/* Jetbrains Mono */
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/static/fonts/jetbrains-mono-v24-latin-regular.woff2")
+    format("woff2");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/static/fonts/jetbrains-mono-v24-latin-700.woff2") format("woff2");
+  font-weight: 700;
+}
+
+/* DM Sans */
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/static/fonts/dm-sans-v17-latin-regular.woff2") format("woff2");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/static/fonts/dm-sans-v17-latin-700.woff2") format("woff2");
+  font-weight: 700;
+}
 
 /* ── VARIABLES ─────────────────────────────────────────────────────────────── */
 :root {
