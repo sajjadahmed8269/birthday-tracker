@@ -26,6 +26,12 @@
               <span>{{ session["username"] }}</span>
             </div>
             <a href="/logout" class="navbar__logout">Log out</a>
+
+            <!-- Dropdown (small screens only) -->
+            <div class="navbar__dropdown" id="navbar-dropdown">
+              <div class="navbar__dropdown-user">{{ session["username"] }}</div>
+              <a href="/logout" class="navbar__dropdown-logout">Log out</a>
+            </div>
           </div>
         </div>
       </nav>
@@ -172,5 +178,19 @@
         </div>
       </main>
     </div>
+
+    <script>
+      const avatar = document.getElementById("navbar-avatar");
+      const dropdown = document.getElementById("navbar-dropdown");
+
+      avatar.addEventListener("click", function (e) {
+        e.stopPropagation();
+        dropdown.classList.toggle("open");
+      });
+
+      document.addEventListener("click", function () {
+        dropdown.classList.remove("open");
+      });
+    </script>
   </body>
 </html>
