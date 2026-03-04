@@ -144,7 +144,13 @@ def register():
             "INSERT INTO users (username, password_hash) VALUES (?, ?)", username, hash
         )
 
-        return redirect("/login")
+        # Start session for current user
+        rows = db.execute("SELECT * FROM users WHERE username = ?", username)
+
+        session["user_id"] = rows[0]["id"]
+        session["username"] = rows[0]["username"]
+
+        return redirect("/")
 
     else:
         return render_template("register.html")
