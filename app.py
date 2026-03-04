@@ -116,26 +116,33 @@ def register():
         # Data Validation
         rows = db.execute("SELECT * FROM users WHERE username = ?", username)
         if len(rows) != 0:
-            return render_template("register.html", error="Username already exists.")
+            return render_template(
+                "register.html", error="Username already exists."
+            ), 409
 
         if not username or not password or not confirmation:
-            return render_template("register.html", error="Empty Credentials.")
+            return render_template("register.html", error="Empty Credentials."), 400
 
         if len(username) > 15:
             return render_template(
-                "register.html", error="Username exceeds 15 characters."
-            )
+                "register.html",
+                error="Username exceeds 15 characters.",
+            ), 400
 
         if len(password) < 8:
             return render_template(
                 "register.html", error="Password should be atleast 8 characters."
-            )
+            ), 400
 
         if any(c.isspace() for c in username):
-            return render_template("register.html", error="username contain spaces.")
+            return render_template(
+                "register.html", error="username contain spaces."
+            ), 400
 
         if confirmation != password:
-            return render_template("register.html", error="Passwords do not match.")
+            return render_template(
+                "register.html", error="Passwords do not match."
+            ), 400
 
         # Create a hash and add data to database
         hash = generate_password_hash(password)
@@ -165,15 +172,15 @@ def login():
 
         # Data Validation
         if not username or not password:
-            return render_template("login.html", error="Empty Credentials.")
+            return render_template("login.html", error="Empty Credentials."), 400
 
         if len(username) > 15:
             return render_template(
                 "login.html", error="Username exceeds 15 characters."
-            )
+            ), 400
 
         if any(c.isspace() for c in username):
-            return render_template("login.html", error="username contain spaces.")
+            return render_template("login.html", error="username contain spaces."), 400
 
         # Check database for username and password
         rows = db.execute("SELECT * FROM users WHERE username = ?", username)
@@ -181,7 +188,9 @@ def login():
         if len(rows) != 1 or not check_password_hash(
             rows[0]["password_hash"], password
         ):
-            return render_template("login.html", error="Invalid username or password.")
+            return render_template(
+                "login.html", error="Invalid username or password."
+            ), 401
 
         # Start session for current user
         session["user_id"] = rows[0]["id"]
