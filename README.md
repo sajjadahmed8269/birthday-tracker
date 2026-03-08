@@ -8,7 +8,7 @@
 
 A full-stack web app to track and manage friends' birthdays — with secure auth, per-user data isolation, and a clean dark UI.
 
-🔗 **[Live Demo](https://birthday-tracker.onrender.com)**
+🔗 **[Live Demo](https://sajjadahmed8269.pythonanywhere.com)**
 
 > ⚠️ **Heads-up for demo viewers:**
 >
