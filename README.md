@@ -37,7 +37,7 @@ A full-stack web app to track and manage friends' birthdays — with secure auth
 ## Getting Started
 
 ```bash
-git clone https://github.com/sajjadahmed8269/birthday-tracker.git
+git clone https://github.com/sajjad-thedev/birthday-tracker.git
 cd birthday-tracker
 
 python -m venv venv && source venv/bin/activate
@@ -74,4 +74,4 @@ birthday-tracker/
 
 ---
 
-> Built by [Sajjad](https://github.com/your-username)
+> Built by [Sajjad](https://github.com/sajjad-thedev)
